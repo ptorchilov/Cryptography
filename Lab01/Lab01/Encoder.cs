@@ -83,25 +83,23 @@
         /// <param name="positions">The positions.</param>
         /// <param name="words">The words.</param>
         /// <returns>Finded words.</returns>
-        private static List<String> DecodeWords(List<List<List<int>>> positions, List<String> words)
+        private static List<String> DecodeWords(IList<List<List<int>>> positions, IList<string> words)
         {
             var results = new List<String>();
 
             for (var i = 0; i < positions.Count; i++)
             {
-                var pos = new List<int>();
+                var firstWord = positions[i];
+                var secondWord = positions[(i + 1) % positions.Count];
 
-                foreach (var listI in positions[i])
+                if (firstWord.Any() && secondWord.Any())
                 {
-                    foreach (var listJ in positions[(i + 1) % positions.Count])
+                    var wordNumber = firstWord[0].Intersect(secondWord[0]).ToList();
+
+                    if (wordNumber.Any())
                     {
-                        pos.AddRange(listI.Intersect(listJ));
+                        results.Add(words[wordNumber[0]]);
                     }
-                }
-
-                if (pos.Count > 0)
-                {
-                    results.Add(words[pos[0]]);
                 }
                 else
                 {
