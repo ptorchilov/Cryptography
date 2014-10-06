@@ -117,7 +117,7 @@ namespace Lab01
 
             Array.Reverse(reverterChars);
 
-            return new string(reverterChars);
+            return new String(reverterChars);
         } 
 
         #endregion
