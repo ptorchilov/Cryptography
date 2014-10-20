@@ -27,7 +27,6 @@
 
             var alphabets = Alphabet.GetAllAlphabets(letters);
 
-
             foreach (var alph in alphabets)
             {
                 var xors = new List<String>();
