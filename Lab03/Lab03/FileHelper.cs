@@ -22,7 +22,7 @@
                     if ((symbol >= 'А' && symbol <= 'Я') || 
                         (symbol >= 'а' && symbol <= 'я'))
                     {
-                        stringBuilder.Append(CorrectSymbol(symbol));
+                        stringBuilder.Append(Char.ToLower(CorrectSymbol(symbol)));
                     }
                 }
             }

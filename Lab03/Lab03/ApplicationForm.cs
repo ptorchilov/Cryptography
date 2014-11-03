@@ -22,7 +22,29 @@ namespace Lab03
 
             var fileString = this.ReadFile(filePath);
 
+            textBoxSource.Text = fileString;
+
             var frecuencyTable = this.CreateFrequencyTable(fileString);
+
+            var coder = CreateCodes(fileString, frecuencyTable);
+        }
+
+        private Coder CreateCodes(String text, FrequencyTable table)
+        {
+            var coder = new Coder();
+
+            coder.Encode(text, table);
+
+            return coder;
+        }
+
+        private FrequencyTable CreateFrequencyTable(String fileString)
+        {
+            var table = new FrequencyTable();
+
+            table.CreateFrequencyTable(fileString);
+
+            return table;
         }
 
         private String ReadFile(String filePath)
@@ -30,15 +52,6 @@ namespace Lab03
             var helper = new FileHelper();
 
             return helper.ReadFile(filePath);
-        }
-
-        private IDictionary<char, int> CreateFrequencyTable(String fileString)
-        {
-            var table = new FrequencyTable();
-
-            table.CreateFrequencyTable(fileString);
-
-            return table.SybmolsFrequency;
         }
     }
 }
