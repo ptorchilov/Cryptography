@@ -15,5 +15,30 @@ namespace Lab03
         {
             InitializeComponent();
         }
+
+        private void ButtonEncodeClick(object sender, EventArgs e)
+        {
+            var filePath = TestFiles.TestFile1;
+
+            var fileString = this.ReadFile(filePath);
+
+            var frecuencyTable = this.CreateFrequencyTable(fileString);
+        }
+
+        private String ReadFile(String filePath)
+        {
+            var helper = new FileHelper();
+
+            return helper.ReadFile(filePath);
+        }
+
+        private IDictionary<char, int> CreateFrequencyTable(String fileString)
+        {
+            var table = new FrequencyTable();
+
+            table.CreateFrequencyTable(fileString);
+
+            return table.SybmolsFrequency;
+        }
     }
 }

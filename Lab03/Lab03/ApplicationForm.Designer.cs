@@ -124,6 +124,7 @@
             this.buttonEncode.TabIndex = 7;
             this.buttonEncode.Text = "Закодировать";
             this.buttonEncode.UseVisualStyleBackColor = true;
+            this.buttonEncode.Click += new System.EventHandler(this.ButtonEncodeClick);
             // 
             // buttonSend
             // 

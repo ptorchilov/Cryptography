@@ -13,7 +13,7 @@
         {
             var stringBuilder = new StringBuilder();
 
-            using (var streamReader = new StreamReader(path))
+            using (var streamReader = new StreamReader(path, Encoding.Default))
             {
                 var rawText = streamReader.ReadToEnd();
 
@@ -22,12 +22,35 @@
                     if ((symbol >= 'А' && symbol <= 'Я') || 
                         (symbol >= 'а' && symbol <= 'я'))
                     {
-                        stringBuilder.Append(Char.ToLower(symbol));
+                        stringBuilder.Append(CorrectSymbol(symbol));
                     }
                 }
             }
 
             return stringBuilder.ToString();
+        }
+
+        private char CorrectSymbol(char symbol)
+        {
+            switch (Char.ToLower(symbol))
+            {
+                case 'ё':
+                {
+                    return 'е';
+                }
+                case 'й':
+                {
+                    return 'и';
+                }
+                case 'ъ':
+                {
+                    return 'ь';
+                }
+                default :
+                {
+                    return symbol;
+                }
+            }
         }
     }
 }
