@@ -9,8 +9,8 @@
     {
         public const String TestFile1 = @"D:\work\VS\sem9\zivvs\Cryptography\Lab03\TestFiles\TestFile1.txt";
 
-        public const String TestFile2 = @"";
+        public const String TestFile2 = @"D:\work\VS\sem9\zivvs\Cryptography\Lab03\TestFiles\TestFile2.txt";
 
-        public const String TestFile3 = @"";
+        public const String TestFile3 = @"D:\work\VS\sem9\zivvs\Cryptography\Lab03\TestFiles\TestFile3.txt";
     }
 }

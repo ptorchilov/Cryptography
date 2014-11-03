@@ -38,14 +38,6 @@
                 {
                     return 'е';
                 }
-                case 'й':
-                {
-                    return 'и';
-                }
-                case 'ъ':
-                {
-                    return 'ь';
-                }
                 default :
                 {
                     return symbol;

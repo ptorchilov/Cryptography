@@ -23,7 +23,7 @@
 
         public String Encode(String text, FrequencyTable table)
         {
-            var codes = this.GenerateCodes(table);
+            var codes = GenerateCodes(table);
             var symbolsFrequency = table.SortedSymbols;
 
             FillTables(symbolsFrequency, codes);
@@ -49,7 +49,10 @@
 
             foreach (var symbol in symbols)
             {
-                stringBuilder.Append(SymbolsTable[symbol]);
+                if (SymbolsTable.ContainsKey(symbol))
+                {
+                    stringBuilder.Append(SymbolsTable[symbol]);
+                }
             }
 
             return stringBuilder.ToString();
