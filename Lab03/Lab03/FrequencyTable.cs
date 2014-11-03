@@ -10,6 +10,14 @@
     public class FrequencyTable
     {
         public SortedDictionary<char, int> SybmolsFrequency { get; private set; }
+
+        public List<char> SortedSymbols
+        {
+            get
+            {
+                return SybmolsFrequency.Keys.OrderByDescending(key => SybmolsFrequency[key]).ToList();
+            }
+        }
         
         public FrequencyTable()
         {

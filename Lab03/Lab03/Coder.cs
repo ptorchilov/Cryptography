@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Drawing.Imaging;
+    using System.Text;
 
     /// <summary>
     /// Class for encode and decode text.
@@ -21,11 +21,47 @@
             SymbolsTable = new Dictionary<String, char>();
         }
 
-        public void Encode(String text, FrequencyTable table)
+        public String Encode(String text, FrequencyTable table)
         {
             var codes = this.GenerateCodes(table);
+            var symbolsFrequency = table.SortedSymbols;
 
+            FillTables(symbolsFrequency, codes);
 
+            var stringBuiler = new StringBuilder();
+
+            foreach (var symbol in text)
+            {
+                stringBuiler.Append(CodesTable[symbol]);
+                stringBuiler.Append(Separator);
+            }
+
+            stringBuiler.Remove(stringBuiler.Length - Separator.Length, Separator.Length);
+
+            return stringBuiler.ToString();
+        }
+
+        public String Decode(String encodedText)
+        {
+            var stringBuilder = new StringBuilder();
+
+            var symbols = encodedText.Split(new[] { Separator }, StringSplitOptions.None);
+
+            foreach (var symbol in symbols)
+            {
+                stringBuilder.Append(SymbolsTable[symbol]);
+            }
+
+            return stringBuilder.ToString();
+        }
+
+        private void FillTables(IList<char> symbolsFrequency, IList<String> codes)
+        {
+            for (var i = 0; i < codes.Count; i++)
+            {
+                CodesTable.Add(symbolsFrequency[i], codes[i]);
+                SymbolsTable.Add(codes[i], symbolsFrequency[i]);
+            }
         }
 
         private IList<String> GenerateCodes(FrequencyTable table)

@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-
-namespace Lab03
+﻿namespace Lab03
 {
+    using System;
+    using System.Windows.Forms;
+
     public partial class ApplicationForm : Form
     {
+        private Coder coder;
+
         public ApplicationForm()
         {
             InitializeComponent();
@@ -24,18 +20,43 @@ namespace Lab03
 
             textBoxSource.Text = fileString;
 
-            var frecuencyTable = this.CreateFrequencyTable(fileString);
+            var frecuencyTable = CreateFrequencyTable(fileString);
 
-            var coder = CreateCodes(fileString, frecuencyTable);
+            coder = new Coder();
+
+            textBoxEncoded.Text = Encode(fileString, frecuencyTable);
+
+            ShowFrequencyTable(frecuencyTable);
         }
 
-        private Coder CreateCodes(String text, FrequencyTable table)
+        private void ButtonSendClick(object sender, EventArgs e)
         {
-            var coder = new Coder();
+            if (coder != null)
+            {
+                textBoxDecoded.Text = Decode(textBoxEncoded.Text);
+            }
+        }
 
-            coder.Encode(text, table);
+        private void ShowFrequencyTable(FrequencyTable table)
+        {
+            foreach (var symbol in table.SortedSymbols)
+            {
+                textBoxFrequency.Text += String.Concat("'", symbol, "' - ", 
+                    table.SybmolsFrequency[symbol]);
 
-            return coder;
+                textBoxFrequency.Text += String.Concat(" - ", coder.CodesTable[symbol],
+                    Environment.NewLine);
+            }
+        }
+
+        private String Decode(String encodedText)
+        {
+            return coder.Decode(encodedText);
+        }
+
+        private String Encode(String text, FrequencyTable table)
+        {
+            return coder.Encode(text, table);
         }
 
         private FrequencyTable CreateFrequencyTable(String fileString)

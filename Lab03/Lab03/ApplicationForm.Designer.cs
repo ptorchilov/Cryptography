@@ -49,6 +49,7 @@
             this.textBoxSource.Location = new System.Drawing.Point(15, 19);
             this.textBoxSource.Multiline = true;
             this.textBoxSource.Name = "textBoxSource";
+            this.textBoxSource.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBoxSource.Size = new System.Drawing.Size(477, 203);
             this.textBoxSource.TabIndex = 0;
             // 
@@ -57,6 +58,7 @@
             this.textBoxEncoded.Location = new System.Drawing.Point(6, 19);
             this.textBoxEncoded.Multiline = true;
             this.textBoxEncoded.Name = "textBoxEncoded";
+            this.textBoxEncoded.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBoxEncoded.Size = new System.Drawing.Size(459, 203);
             this.textBoxEncoded.TabIndex = 1;
             // 
@@ -65,6 +67,7 @@
             this.textBoxDecoded.Location = new System.Drawing.Point(8, 19);
             this.textBoxDecoded.Multiline = true;
             this.textBoxDecoded.Name = "textBoxDecoded";
+            this.textBoxDecoded.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBoxDecoded.Size = new System.Drawing.Size(459, 203);
             this.textBoxDecoded.TabIndex = 2;
             // 
@@ -113,6 +116,7 @@
             this.textBoxFrequency.Location = new System.Drawing.Point(7, 19);
             this.textBoxFrequency.Multiline = true;
             this.textBoxFrequency.Name = "textBoxFrequency";
+            this.textBoxFrequency.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBoxFrequency.Size = new System.Drawing.Size(248, 203);
             this.textBoxFrequency.TabIndex = 0;
             // 
@@ -134,6 +138,7 @@
             this.buttonSend.TabIndex = 8;
             this.buttonSend.Text = "Отправить";
             this.buttonSend.UseVisualStyleBackColor = true;
+            this.buttonSend.Click += new System.EventHandler(this.ButtonSendClick);
             // 
             // ApplicationForm
             // 
