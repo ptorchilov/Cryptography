@@ -12,5 +12,7 @@
         public const String TestFile2 = @"D:\work\VS\sem9\zivvs\Cryptography\Lab03\TestFiles\TestFile2.txt";
 
         public const String TestFile3 = @"D:\work\VS\sem9\zivvs\Cryptography\Lab03\TestFiles\TestFile3.txt";
+
+        public const String TestFile4 = @"D:\work\VS\sem9\zivvs\Cryptography\Lab03\TestFiles\TestFile4.txt";
     }
 }

@@ -12,6 +12,8 @@
 
         private List<Compressor> compressors;
 
+        private int i = 1;
+
         public ApplicationForm()
         {
             InitializeComponent();
@@ -30,8 +32,7 @@
             textBoxSource.Text = fileString;
 
             var encodedText = fileString;
-            int i = 0;
-
+            
             while (true)
             {
                 var frecuencyTable = CreateFrequencyTable(encodedText);
@@ -54,7 +55,7 @@
                     }
                     break;
                 }
-
+                i++;
                 encodedText = newText;
             }
 
@@ -93,6 +94,7 @@
             label4.Text = @"Коэффициент сжатия: " + String.Format("{0:##0.00}", 
                 100 - ((textBoxEncoded.Text.Length /
                 ((double)textBoxDecoded.Text.Length * 8))) * 100) + @"%";
+            label5.Text = @"Количество повторных сжатий: " + i;
         }
 
         private void ShowFrequencyTable(FrequencyTable table)
