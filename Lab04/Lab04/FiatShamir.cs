@@ -50,6 +50,8 @@
         /// </value>
         public int Beta { get; private set; } 
 
+        public int[] A { get; private set; }
+
         #endregion
 
         #region Fields
@@ -95,6 +97,8 @@
 
             var hashResult = GetHash(mu);
 
+            A = new int[hashResult.Length];
+
 
         } 
 
@@ -123,6 +127,14 @@
         private int GetGreatestCommonDivisor(int a, int b)
         {
             return b == 0 ? a : GetGreatestCommonDivisor(b, a % b) ;
+        }
+
+        private int[] GetAParams(int length)
+        {
+            for (var i = 0; i < length; i++)
+            {
+                
+            }
         }
 
         #endregion
