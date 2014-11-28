@@ -94,6 +94,8 @@
             var mu = Convert.ToString(Beta, 2);
 
             var hashResult = GetHash(mu);
+
+
         } 
 
         #endregion
@@ -110,7 +112,18 @@
             var hashResult = mu.Count(character => character == '1');
 
             return Convert.ToString(hashResult, 2);
-        } 
+        }
+
+        /// <summary>
+        /// Gets the greatest common divisor.
+        /// </summary>
+        /// <param name="a">a.</param>
+        /// <param name="b">The b.</param>
+        /// <returns>GCD</returns>
+        private int GetGreatestCommonDivisor(int a, int b)
+        {
+            return b == 0 ? a : GetGreatestCommonDivisor(b, a % b) ;
+        }
 
         #endregion
     }
