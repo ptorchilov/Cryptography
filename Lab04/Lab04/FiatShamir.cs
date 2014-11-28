@@ -1,6 +1,7 @@
 ﻿namespace Lab04
 {
     using System;
+    using System.Linq;
 
     /// <summary>
     /// Calss for realize Fiat-Shamir algorithm.
@@ -89,6 +90,26 @@
             Alpha = random.Next(1, M - 1); //TODO: check this condition
 
             Beta = (int)Math.Pow(Alpha, 2) % M;
+
+            var mu = Convert.ToString(Beta, 2);
+
+            var hashResult = GetHash(mu);
+        } 
+
+        #endregion
+
+        #region Private Methods
+
+        /// <summary>
+        /// Gets the hash.
+        /// </summary>
+        /// <param name="mu">The mu.</param>
+        /// <returns></returns>
+        private String GetHash(String mu)
+        {
+            var hashResult = mu.Count(character => character == '1');
+
+            return Convert.ToString(hashResult, 2);
         } 
 
         #endregion
