@@ -25,7 +25,7 @@
 
         private void ButtonEncodeClick(object sender, EventArgs e)
         {
-            var filePath = TestFiles.TestFile2;
+            var filePath = TestFiles.TestFile3;
 
             var fileString = ReadFile(filePath);
 

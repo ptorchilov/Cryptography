@@ -1,5 +1,7 @@
 ﻿namespace Lab04
 {
+    using System;
+    using System.Resources;
     using System.Windows.Forms;
 
     /// <summary>
@@ -7,6 +9,9 @@
     /// </summary>
     public partial class ApplicationForm : Form
     {
+        private ResourceManager resourceManager;
+
+
         #region Constructors
 
         /// <summary>
@@ -16,6 +21,22 @@
         {
             InitializeComponent();
         } 
+
+        #endregion
+
+        #region Input Validators
+
+        private bool ValidateKsiValue(String value)
+        {
+            int result;
+
+            if (Int32.TryParse(value, out result))
+            {
+                
+            }
+
+            return ResourceManager.Get;
+        }
 
         #endregion
     }

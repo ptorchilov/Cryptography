@@ -89,9 +89,9 @@
         {
             M = Ksi1 * Ksi2;
 
-            Alpha = random.Next(1, M - 1); //TODO: check this condition
+            Alpha = random.Next(1, M); //TODO: check this condition
 
-            Beta = (int)Math.Pow(Alpha, 2) % M;
+            Beta = (int) Math.Pow(Alpha, 2) % M;
 
             var mu = Convert.ToString(Beta, 2);
 
@@ -129,13 +129,13 @@
             return b == 0 ? a : GetGreatestCommonDivisor(b, a % b) ;
         }
 
-        private int[] GetAParams(int length)
-        {
-            for (var i = 0; i < length; i++)
-            {
-                
-            }
-        }
+//        private int[] GetAParams(int length)
+//        {
+//            for (var i = 0; i < length; i++)
+//            {
+//                
+//            }
+//        }
 
         #endregion
     }

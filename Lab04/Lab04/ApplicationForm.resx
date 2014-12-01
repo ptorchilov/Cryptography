@@ -117,13 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NotANumber" xml:space="preserve">
-    <value>"Значение для Кси {0} не является числом."</value>
-  </data>
-  <data name="NotAPrime" xml:space="preserve">
-    <value>"Число Кси {0} не простое."</value>
-  </data>
-  <data name="NotARussianAlphabet" xml:space="preserve">
-    <value>"Сообщение нужно ввести на русском языке."</value>
-  </data>
 </root>
