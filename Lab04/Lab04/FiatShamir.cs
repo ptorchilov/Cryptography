@@ -2,10 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
-    using System.Linq.Expressions;
-
+    
     /// <summary>
     /// Calss for realize Fiat-Shamir algorithm.
     /// </summary>
@@ -69,6 +67,22 @@
         /// </value>
         public int[] A { get; private set; }
 
+        /// <summary>
+        /// Gets the t.
+        /// </summary>
+        /// <value>
+        /// The t.
+        /// </value>
+        public int T { get; private set; }
+
+        /// <summary>
+        /// Gets the b.
+        /// </summary>
+        /// <value>
+        /// The b.
+        /// </value>
+        public int[] B { get; private set; }
+
         #endregion
 
         #region Fields
@@ -114,7 +128,7 @@
             //3. Вычисляем Beta = Alpha ^ 2 (mod M)
             Beta = (int)Math.Pow(Alpha, 2) % M;
 
-            //4. Вычисляем хэш функцию для сообщения Mu
+            //4. Вычисляем хэш функцию для сообщения Mu (секретный ключ S)
             S = GetHashFunction(mu, Beta);
 
             var hashBinary = Convert.ToString(S, 2);
@@ -122,12 +136,49 @@
             //5. Выбираем случайные числа A взаимнопростые с M
             A = GetANumbers(hashBinary.Length);
 
+            //6. Вычисляем занчение секретного ключа T
+            T = GetTKey(Alpha, A, hashBinary);
+
+            //7. Вычисляем значения открытых ключей B
+ 
 
         } 
 
         #endregion
 
         #region Private Methods
+
+        private int[] GetBKeys(int[] a)
+        {
+            var b = new int[a.Length];
+
+            for (var i = 0; i < a.Length; i++)
+            {
+                var value = 
+            }
+        }
+
+        /// <summary>
+        /// Gets the t key.
+        /// </summary>
+        /// <param name="alpha">The alpha.</param>
+        /// <param name="a">a.</param>
+        /// <param name="hashBinary">The hash binary.</param>
+        /// <returns>T value.</returns>
+        private int GetTKey(int alpha, int[] a, String hashBinary)
+        {
+            var t = alpha;
+
+            for (var i = 0; i < hashBinary.Length; i++)
+            {
+                if (hashBinary[i] == '1')
+                {
+                    alpha *= a[i];
+                }
+            }
+
+            return t % M;
+        }
 
         /// <summary>
         /// Gets a numbers.
@@ -172,9 +223,7 @@
         private int GetHashFunction(String mu, int beta)
         {
             var coder = new Coder();
-
             var formattedMsg = coder.FormatMessage(mu);
-
             var codedMsg = coder.CodeMessage(formattedMsg);
 
             var betaBinary = Convert.ToString(beta, 2);
