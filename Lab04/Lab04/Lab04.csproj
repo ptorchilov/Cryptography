@@ -51,6 +51,7 @@
     <Compile Include="ApplicationForm.Designer.cs">
       <DependentUpon>ApplicationForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Coder.cs" />
     <Compile Include="FiatShamir.cs" />
     <Compile Include="PrimeTool.cs" />
     <Compile Include="Program.cs" />

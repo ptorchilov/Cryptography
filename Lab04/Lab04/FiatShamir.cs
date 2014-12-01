@@ -1,8 +1,9 @@
 ﻿namespace Lab04
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
-
+    
     /// <summary>
     /// Calss for realize Fiat-Shamir algorithm.
     /// </summary>
@@ -48,9 +49,39 @@
         /// <value>
         /// The beta.
         /// </value>
-        public int Beta { get; private set; } 
+        public int Beta { get; private set; }
 
+        /// <summary>
+        /// Gets the s.
+        /// </summary>
+        /// <value>
+        /// The s.
+        /// </value>
+        public int S { get;  private set; }
+
+        /// <summary>
+        /// Gets a.
+        /// </summary>
+        /// <value>
+        /// a.
+        /// </value>
         public int[] A { get; private set; }
+
+        /// <summary>
+        /// Gets the t.
+        /// </summary>
+        /// <value>
+        /// The t.
+        /// </value>
+        public int T { get; private set; }
+
+        /// <summary>
+        /// Gets the b.
+        /// </summary>
+        /// <value>
+        /// The b.
+        /// </value>
+        public int[] B { get; private set; }
 
         #endregion
 
@@ -85,20 +116,31 @@
         /// <summary>
         /// Generates the signature.
         /// </summary>
-        public void GenerateSignature()
+        /// <param name="mu">The message.</param>
+        public void GenerateSignature(String mu)
         {
+            //1. Определяем модуль сравнения на основе Кси1 и Кси2
             M = Ksi1 * Ksi2;
 
-            Alpha = random.Next(1, M); //TODO: check this condition
+            //2. Выбираем случайное число 0 < Alpha <= M -1
+            Alpha = random.Next(1, M);
 
-            Beta = (int) Math.Pow(Alpha, 2) % M;
+            //3. Вычисляем Beta = Alpha ^ 2 (mod M)
+            Beta = (int)Math.Pow(Alpha, 2) % M;
 
-            var mu = Convert.ToString(Beta, 2);
+            //4. Вычисляем хэш функцию для сообщения Mu (секретный ключ S)
+            S = GetHashFunction(mu, Beta);
 
-            var hashResult = GetHash(mu);
+            var hashBinary = Convert.ToString(S, 2);
 
-            A = new int[hashResult.Length];
+            //5. Выбираем случайные числа A взаимнопростые с M
+            A = GetANumbers(hashBinary.Length);
 
+            //6. Вычисляем занчение секретного ключа T
+            T = GetTKey(Alpha, A, hashBinary);
+
+            //7. Вычисляем значения открытых ключей B
+ 
 
         } 
 
@@ -106,16 +148,104 @@
 
         #region Private Methods
 
+        private int[] GetBKeys(int[] a)
+        {
+            var b = new int[a.Length];
+
+            for (var i = 0; i < a.Length; i++)
+            {
+                var value = 
+            }
+        }
+
+        /// <summary>
+        /// Gets the t key.
+        /// </summary>
+        /// <param name="alpha">The alpha.</param>
+        /// <param name="a">a.</param>
+        /// <param name="hashBinary">The hash binary.</param>
+        /// <returns>T value.</returns>
+        private int GetTKey(int alpha, int[] a, String hashBinary)
+        {
+            var t = alpha;
+
+            for (var i = 0; i < hashBinary.Length; i++)
+            {
+                if (hashBinary[i] == '1')
+                {
+                    alpha *= a[i];
+                }
+            }
+
+            return t % M;
+        }
+
+        /// <summary>
+        /// Gets a numbers.
+        /// </summary>
+        /// <param name="length">The length.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentException"></exception>
+        private int[] GetANumbers(int length)
+        {
+            var result = new int[length];
+            var candidates = new List<int>();
+
+            for (var i = 2; i < M; i++)
+            {
+                if (GetGreatestCommonDivisor(i, M) == 1)
+                {
+                    candidates.Add(i);
+                }
+            }
+
+            if (candidates.Count < length)
+            {
+                throw new ArgumentException();
+            }
+
+            for (var i = 0; i < length; i++)
+            {
+                var index = random.Next(0, candidates.Count);
+
+                result[i] = candidates[index];
+            }
+
+            return result.OrderBy(x => x).ToArray();
+        }
+
+        /// <summary>
+        /// Gets the hash function.
+        /// </summary>
+        /// <param name="mu">The mu.</param>
+        /// <param name="beta">The beta.</param>
+        /// <returns></returns>
+        private int GetHashFunction(String mu, int beta)
+        {
+            var coder = new Coder();
+            var formattedMsg = coder.FormatMessage(mu);
+            var codedMsg = coder.CodeMessage(formattedMsg);
+
+            var betaBinary = Convert.ToString(beta, 2);
+
+            while (betaBinary.Length < Coder.CodeLength)
+            {
+                betaBinary = "0" + betaBinary;
+            }
+
+            return GetHash(codedMsg + betaBinary);
+        }
+
         /// <summary>
         /// Gets the hash.
         /// </summary>
         /// <param name="mu">The mu.</param>
         /// <returns></returns>
-        private String GetHash(String mu)
+        private int GetHash(String mu)
         {
             var hashResult = mu.Count(character => character == '1');
 
-            return Convert.ToString(hashResult, 2);
+            return hashResult;
         }
 
         /// <summary>
@@ -128,14 +258,6 @@
         {
             return b == 0 ? a : GetGreatestCommonDivisor(b, a % b) ;
         }
-
-//        private int[] GetAParams(int length)
-//        {
-//            for (var i = 0; i < length; i++)
-//            {
-//                
-//            }
-//        }
 
         #endregion
     }
