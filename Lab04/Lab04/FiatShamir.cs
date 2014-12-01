@@ -1,6 +1,8 @@
 ﻿namespace Lab04
 {
     using System;
+    using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Linq.Expressions;
 
@@ -49,8 +51,22 @@
         /// <value>
         /// The beta.
         /// </value>
-        public int Beta { get; private set; } 
+        public int Beta { get; private set; }
 
+        /// <summary>
+        /// Gets the s.
+        /// </summary>
+        /// <value>
+        /// The s.
+        /// </value>
+        public int S { get;  private set; }
+
+        /// <summary>
+        /// Gets a.
+        /// </summary>
+        /// <value>
+        /// a.
+        /// </value>
         public int[] A { get; private set; }
 
         #endregion
@@ -99,9 +115,14 @@
             Beta = (int)Math.Pow(Alpha, 2) % M;
 
             //4. Вычисляем хэш функцию для сообщения Mu
-            var hashResult = GetHashFunction(mu, Beta);
+            S = GetHashFunction(mu, Beta);
 
-            A = new int[hashResult.Length];
+            var hashBinary = Convert.ToString(S, 2);
+
+            //5. Выбираем случайные числа A взаимнопростые с M
+            A = GetANumbers(hashBinary.Length);
+
+
         } 
 
         #endregion
@@ -109,12 +130,46 @@
         #region Private Methods
 
         /// <summary>
+        /// Gets a numbers.
+        /// </summary>
+        /// <param name="length">The length.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentException"></exception>
+        private int[] GetANumbers(int length)
+        {
+            var result = new int[length];
+            var candidates = new List<int>();
+
+            for (var i = 2; i < M; i++)
+            {
+                if (GetGreatestCommonDivisor(i, M) == 1)
+                {
+                    candidates.Add(i);
+                }
+            }
+
+            if (candidates.Count < length)
+            {
+                throw new ArgumentException();
+            }
+
+            for (var i = 0; i < length; i++)
+            {
+                var index = random.Next(0, candidates.Count);
+
+                result[i] = candidates[index];
+            }
+
+            return result.OrderBy(x => x).ToArray();
+        }
+
+        /// <summary>
         /// Gets the hash function.
         /// </summary>
         /// <param name="mu">The mu.</param>
         /// <param name="beta">The beta.</param>
         /// <returns></returns>
-        private String GetHashFunction(String mu, int beta)
+        private int GetHashFunction(String mu, int beta)
         {
             var coder = new Coder();
 
@@ -137,11 +192,11 @@
         /// </summary>
         /// <param name="mu">The mu.</param>
         /// <returns></returns>
-        private String GetHash(String mu)
+        private int GetHash(String mu)
         {
             var hashResult = mu.Count(character => character == '1');
 
-            return Convert.ToString(hashResult, 2);
+            return hashResult;
         }
 
         /// <summary>
@@ -154,14 +209,6 @@
         {
             return b == 0 ? a : GetGreatestCommonDivisor(b, a % b) ;
         }
-
-//        private int[] GetAParams(int length)
-//        {
-//            for (var i = 0; i < length; i++)
-//            {
-//                
-//            }
-//        }
 
         #endregion
     }

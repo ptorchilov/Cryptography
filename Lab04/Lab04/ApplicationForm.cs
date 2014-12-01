@@ -26,7 +26,7 @@
 
         private int Ksi1 = 3;
 
-        private int Ksi2 = 5;
+        private int Ksi2 = 41;
 
         #endregion
 
