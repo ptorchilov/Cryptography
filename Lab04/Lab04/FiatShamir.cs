@@ -2,6 +2,7 @@
 {
     using System;
     using System.Linq;
+    using System.Linq.Expressions;
 
     /// <summary>
     /// Calss for realize Fiat-Shamir algorithm.
@@ -85,26 +86,51 @@
         /// <summary>
         /// Generates the signature.
         /// </summary>
-        public void GenerateSignature()
+        /// <param name="mu">The message.</param>
+        public void GenerateSignature(String mu)
         {
+            //1. Определяем модуль сравнения на основе Кси1 и Кси2
             M = Ksi1 * Ksi2;
 
-            Alpha = random.Next(1, M - 1); //TODO: check this condition
+            //2. Выбираем случайное число 0 < Alpha <= M -1
+            Alpha = random.Next(1, M);
 
+            //3. Вычисляем Beta = Alpha ^ 2 (mod M)
             Beta = (int)Math.Pow(Alpha, 2) % M;
 
-            var mu = Convert.ToString(Beta, 2);
-
-            var hashResult = GetHash(mu);
+            //4. Вычисляем хэш функцию для сообщения Mu
+            var hashResult = GetHashFunction(mu, Beta);
 
             A = new int[hashResult.Length];
-
-
         } 
 
         #endregion
 
         #region Private Methods
+
+        /// <summary>
+        /// Gets the hash function.
+        /// </summary>
+        /// <param name="mu">The mu.</param>
+        /// <param name="beta">The beta.</param>
+        /// <returns></returns>
+        private String GetHashFunction(String mu, int beta)
+        {
+            var coder = new Coder();
+
+            var formattedMsg = coder.FormatMessage(mu);
+
+            var codedMsg = coder.CodeMessage(formattedMsg);
+
+            var betaBinary = Convert.ToString(beta, 2);
+
+            while (betaBinary.Length < Coder.CodeLength)
+            {
+                betaBinary = "0" + betaBinary;
+            }
+
+            return GetHash(codedMsg + betaBinary);
+        }
 
         /// <summary>
         /// Gets the hash.
@@ -129,13 +155,13 @@
             return b == 0 ? a : GetGreatestCommonDivisor(b, a % b) ;
         }
 
-        private int[] GetAParams(int length)
-        {
-            for (var i = 0; i < length; i++)
-            {
-                
-            }
-        }
+//        private int[] GetAParams(int length)
+//        {
+//            for (var i = 0; i < length; i++)
+//            {
+//                
+//            }
+//        }
 
         #endregion
     }
