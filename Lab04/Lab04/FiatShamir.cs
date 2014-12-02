@@ -3,7 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    
+    using System.Numerics;
+
     /// <summary>
     /// Calss for realize Fiat-Shamir algorithm.
     /// </summary>
@@ -41,7 +42,7 @@
         /// <value>
         /// The alpha.
         /// </value>
-        public int Alpha { get; private set; }
+        public long Alpha { get; private set; }
 
         /// <summary>
         /// Gets the beta.
@@ -57,7 +58,7 @@
         /// <value>
         /// The s.
         /// </value>
-        public long S { get;  private set; }
+        public long S { get; private set; }
 
         /// <summary>
         /// Gets a.
@@ -191,10 +192,10 @@
         /// <param name="t">The attribute.</param>
         /// <param name="b">The attribute.</param>
         /// <returns></returns>
-        private int GetWParam(long s, long t, long[] b)
+        private long GetWParam(long s, long t, long[] b)
         {
             var sBinary = Convert.ToString(s, 2);
-            long w = t * t;
+            BigInteger w = t * t;
 
             for (var i = 0; i < sBinary.Length; i++)
             {
@@ -204,7 +205,7 @@
                 }
             }
 
-            return (int) (w % M);
+            return (long) (w % M);
         }
 
         /// <summary>
@@ -282,7 +283,7 @@
         /// <returns>T value.</returns>
         private long GetTKey(long alpha, long[] a, String hashBinary)
         {
-           var t = alpha;
+           BigInteger t = alpha;
 
             for (var i = 0; i < hashBinary.Length; i++)
             {
@@ -292,7 +293,7 @@
                 }
             }
 
-            return t % M;
+            return (long) (t % M);
         }
 
         /// <summary>
@@ -301,7 +302,7 @@
         /// <param name="length">The length.</param>
         /// <returns></returns>
         /// <exception cref="System.ArgumentException"></exception>
-        private long[] GetANumbers(int length)
+        private long[] GetANumbers(long length)
         {
             var result = new long[length];
             var candidates = new List<int>();
