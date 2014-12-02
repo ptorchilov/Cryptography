@@ -68,6 +68,25 @@
         #region Public Methods
 
         /// <summary>
+        /// Decodes the message.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <returns></returns>
+        public String DecodeMessage(String message)
+        {
+            var sb = new StringBuilder();
+
+            for (var i = 0; i < message.Length; i += CodeLength)
+            {
+                var code = message.Substring(i, CodeLength);
+
+                sb.Append(LettersStore[code]);
+            }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
         /// Codes the message.
         /// </summary>
         /// <param name="message">The message.</param>

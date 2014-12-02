@@ -30,13 +30,14 @@
         {
             this.textBoxKsi1 = new System.Windows.Forms.TextBox();
             this.textBoxKsi2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
             this.labelKsi1 = new System.Windows.Forms.Label();
             this.labelKsi2 = new System.Windows.Forms.Label();
             this.textBoxMessage = new System.Windows.Forms.TextBox();
             this.labelMessage = new System.Windows.Forms.Label();
             this.buttonSend = new System.Windows.Forms.Button();
             this.buttonVerify = new System.Windows.Forms.Button();
+            this.textBox3 = new System.Windows.Forms.RichTextBox();
+            this.textBox4 = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // textBoxKsi1
@@ -53,14 +54,6 @@
             this.textBoxKsi2.Name = "textBoxKsi2";
             this.textBoxKsi2.Size = new System.Drawing.Size(100, 20);
             this.textBoxKsi2.TabIndex = 1;
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(13, 77);
-            this.textBox3.Multiline = true;
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(409, 221);
-            this.textBox3.TabIndex = 2;
             // 
             // labelKsi1
             // 
@@ -84,7 +77,7 @@
             // 
             this.textBoxMessage.Location = new System.Drawing.Point(260, 31);
             this.textBoxMessage.Name = "textBoxMessage";
-            this.textBoxMessage.Size = new System.Drawing.Size(100, 20);
+            this.textBoxMessage.Size = new System.Drawing.Size(262, 20);
             this.textBoxMessage.TabIndex = 5;
             // 
             // labelMessage
@@ -98,34 +91,55 @@
             // 
             // buttonSend
             // 
-            this.buttonSend.Location = new System.Drawing.Point(428, 77);
+            this.buttonSend.Location = new System.Drawing.Point(429, 109);
             this.buttonSend.Name = "buttonSend";
             this.buttonSend.Size = new System.Drawing.Size(94, 42);
             this.buttonSend.TabIndex = 7;
             this.buttonSend.Text = "Отправить";
             this.buttonSend.UseVisualStyleBackColor = true;
+            this.buttonSend.Click += new System.EventHandler(this.ButtonSendClick);
             // 
             // buttonVerify
             // 
-            this.buttonVerify.Location = new System.Drawing.Point(429, 256);
+            this.buttonVerify.Location = new System.Drawing.Point(428, 234);
             this.buttonVerify.Name = "buttonVerify";
             this.buttonVerify.Size = new System.Drawing.Size(94, 42);
             this.buttonVerify.TabIndex = 8;
             this.buttonVerify.Text = "Проверить";
             this.buttonVerify.UseVisualStyleBackColor = true;
+            this.buttonVerify.Click += new System.EventHandler(this.ButtonVerifyClick);
+            // 
+            // textBox3
+            // 
+            this.textBox3.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBox3.Location = new System.Drawing.Point(12, 58);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(410, 145);
+            this.textBox3.TabIndex = 9;
+            this.textBox3.Text = "";
+            // 
+            // textBox4
+            // 
+            this.textBox4.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBox4.Location = new System.Drawing.Point(12, 209);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(410, 89);
+            this.textBox4.TabIndex = 10;
+            this.textBox4.Text = "";
             // 
             // ApplicationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(535, 310);
+            this.Controls.Add(this.textBox4);
+            this.Controls.Add(this.textBox3);
             this.Controls.Add(this.buttonVerify);
             this.Controls.Add(this.buttonSend);
             this.Controls.Add(this.labelMessage);
             this.Controls.Add(this.textBoxMessage);
             this.Controls.Add(this.labelKsi2);
             this.Controls.Add(this.labelKsi1);
-            this.Controls.Add(this.textBox3);
             this.Controls.Add(this.textBoxKsi2);
             this.Controls.Add(this.textBoxKsi1);
             this.Name = "ApplicationForm";
@@ -139,13 +153,14 @@
 
         private System.Windows.Forms.TextBox textBoxKsi1;
         private System.Windows.Forms.TextBox textBoxKsi2;
-        private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label labelKsi1;
         private System.Windows.Forms.Label labelKsi2;
         private System.Windows.Forms.TextBox textBoxMessage;
         private System.Windows.Forms.Label labelMessage;
         private System.Windows.Forms.Button buttonSend;
         private System.Windows.Forms.Button buttonVerify;
+        private System.Windows.Forms.RichTextBox textBox3;
+        private System.Windows.Forms.RichTextBox textBox4;
     }
 }
 

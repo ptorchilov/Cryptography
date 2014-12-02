@@ -59,32 +59,5 @@ namespace Lab04.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &quot;Значение для Кси {0} не является числом.&quot;.
-        /// </summary>
-        internal static string NotANumber {
-            get {
-                return ResourceManager.GetString("NotANumber", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &quot;Число Кси {0} не простое.&quot;.
-        /// </summary>
-        internal static string NotAPrime {
-            get {
-                return ResourceManager.GetString("NotAPrime", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &quot;Сообщение нужно ввести на русском языке.&quot;.
-        /// </summary>
-        internal static string NotARussianAlphabet {
-            get {
-                return ResourceManager.GetString("NotARussianAlphabet", resourceCulture);
-            }
-        }
     }
 }

@@ -17,7 +17,7 @@
         /// <value>
         /// The Ksi1.
         /// </value>
-        public int Ksi1 { get; private set; }
+        public long Ksi1 { get; private set; }
 
         /// <summary>
         /// Gets the Ksi2.
@@ -25,7 +25,7 @@
         /// <value>
         /// The Ksi2.
         /// </value>
-        public int Ksi2 { get; private set; }
+        public long Ksi2 { get; private set; }
 
         /// <summary>
         /// Gets the m.
@@ -33,7 +33,7 @@
         /// <value>
         /// The m.
         /// </value>
-        public int M { get; private set; }
+        public long M { get; private set; }
 
         /// <summary>
         /// Gets the alpha.
@@ -49,7 +49,7 @@
         /// <value>
         /// The beta.
         /// </value>
-        public int Beta { get; private set; }
+        public long Beta { get; private set; }
 
         /// <summary>
         /// Gets the s.
@@ -57,7 +57,7 @@
         /// <value>
         /// The s.
         /// </value>
-        public int S { get;  private set; }
+        public long S { get;  private set; }
 
         /// <summary>
         /// Gets a.
@@ -65,7 +65,7 @@
         /// <value>
         /// a.
         /// </value>
-        public int[] A { get; private set; }
+        public long[] A { get; private set; }
 
         /// <summary>
         /// Gets the t.
@@ -73,7 +73,7 @@
         /// <value>
         /// The t.
         /// </value>
-        public int T { get; private set; }
+        public long T { get; private set; }
 
         /// <summary>
         /// Gets the b.
@@ -81,7 +81,23 @@
         /// <value>
         /// The b.
         /// </value>
-        public int[] B { get; private set; }
+        public long[] B { get; private set; }
+
+        /// <summary>
+        /// Gets the forward.
+        /// </summary>
+        /// <value>
+        /// The forward.
+        /// </value>
+        public long W { get; private set; }
+
+        /// <summary>
+        /// Gets the hash.
+        /// </summary>
+        /// <value>
+        /// The hash.
+        /// </value>
+        public long Hash { get; private set; }
 
         #endregion
 
@@ -101,7 +117,7 @@
         /// </summary>
         /// <param name="ksi1">The ksi1.</param>
         /// <param name="ksi2">The ksi2.</param>
-        public FiatShamir(int ksi1, int ksi2)
+        public FiatShamir(long ksi1, long ksi2)
         {
             Ksi1 = ksi1;
             Ksi2 = ksi2;
@@ -117,16 +133,17 @@
         /// Generates the signature.
         /// </summary>
         /// <param name="mu">The message.</param>
-        public void GenerateSignature(String mu)
+        /// <returns></returns>
+        public long[] GenerateSignature(String mu)
         {
             //1. Определяем модуль сравнения на основе Кси1 и Кси2
             M = Ksi1 * Ksi2;
 
-            //2. Выбираем случайное число 0 < Alpha <= M -1
-            Alpha = random.Next(1, M);
+            //2. Выбираем случайное число 0 < Alpha <= M - 1
+            Alpha = random.Next(1, (int) M);
 
             //3. Вычисляем Beta = Alpha ^ 2 (mod M)
-            Beta = (int)Math.Pow(Alpha, 2) % M;
+            Beta = (long) Math.Pow(Alpha, 2) % M;
 
             //4. Вычисляем хэш функцию для сообщения Mu (секретный ключ S)
             S = GetHashFunction(mu, Beta);
@@ -140,22 +157,120 @@
             T = GetTKey(Alpha, A, hashBinary);
 
             //7. Вычисляем значения открытых ключей B
- 
+            B = GetBKeys(A);
 
-        } 
+            return new[] { S, T };
+        }
+
+        /// <summary>
+        /// Validates the signature.
+        /// </summary>
+        /// <param name="keys">The keys.</param>
+        /// <param name="mu">The mu.</param>
+        /// <returns></returns>
+        public bool ValidateSignature(long[] keys, String mu)
+        {
+            //1. Определяем параметр w
+            W = GetWParam(keys[0], keys[1], B);
+
+            //2. Вычисляем хэш функцию для Mu
+            Hash = GetHashFunction(mu, W);
+
+            //3. Проверяем эквивалентность значений
+            return Hash == keys[0];
+        }
 
         #endregion
 
         #region Private Methods
 
-        private int[] GetBKeys(int[] a)
+        /// <summary>
+        /// Gets the forward parameter.
+        /// </summary>
+        /// <param name="s">The arguments.</param>
+        /// <param name="t">The attribute.</param>
+        /// <param name="b">The attribute.</param>
+        /// <returns></returns>
+        private int GetWParam(long s, long t, long[] b)
         {
-            var b = new int[a.Length];
+            var sBinary = Convert.ToString(s, 2);
+            long w = t * t;
+
+            for (var i = 0; i < sBinary.Length; i++)
+            {
+                if (sBinary[i] == '1')
+                {
+                    w *= b[i];
+                }
+            }
+
+            return (int) (w % M);
+        }
+
+        /// <summary>
+        /// Gets the attribute keys.
+        /// </summary>
+        /// <param name="a">The aggregate.</param>
+        /// <returns></returns>
+        private long[] GetBKeys(long[] a)
+        {
+            var b = new long[a.Length];
 
             for (var i = 0; i < a.Length; i++)
             {
-                var value = 
+                var value = a[i] * a[i];
+
+                b[i] = GetB(value);
             }
+
+            return b;
+        }
+
+        /// <summary>
+        /// Gets the attribute.
+        /// </summary>
+        /// <param name="divider">The divider.</param>
+        /// <returns></returns>
+        private long GetB(long divider)
+        {
+            var quotients = new List<long>();
+            var dividend = M;
+
+            while (divider != 0)
+            {
+                var quotient = dividend / divider;
+
+                quotients.Add(quotient);
+
+                var temp = dividend;
+                dividend = divider;
+                divider = temp - (quotient * divider);
+            }
+
+            var ps = new List<long>();
+
+            var ps0 = 1;
+            ps.Add(ps0);
+
+            var ps1 = quotients[0] * ps[0];  
+            ps.Add(ps1);
+
+            for (var i = 1; i < quotients.Count; i++)
+            {
+                var pi = ps[i] * quotients[i] + ps[i - 1];
+                ps.Add(pi);
+            }
+
+            var x = Convert.ToInt64(Math.Pow(-1, quotients.Count - 1));
+
+            x *= ps[ps.Count - 2];
+
+            if (x < 0)
+            {
+                x += M;
+            }
+
+            return x;
         }
 
         /// <summary>
@@ -165,15 +280,15 @@
         /// <param name="a">a.</param>
         /// <param name="hashBinary">The hash binary.</param>
         /// <returns>T value.</returns>
-        private int GetTKey(int alpha, int[] a, String hashBinary)
+        private long GetTKey(long alpha, long[] a, String hashBinary)
         {
-            var t = alpha;
+           var t = alpha;
 
             for (var i = 0; i < hashBinary.Length; i++)
             {
                 if (hashBinary[i] == '1')
                 {
-                    alpha *= a[i];
+                    t *= a[i];
                 }
             }
 
@@ -186,9 +301,9 @@
         /// <param name="length">The length.</param>
         /// <returns></returns>
         /// <exception cref="System.ArgumentException"></exception>
-        private int[] GetANumbers(int length)
+        private long[] GetANumbers(int length)
         {
-            var result = new int[length];
+            var result = new long[length];
             var candidates = new List<int>();
 
             for (var i = 2; i < M; i++)
@@ -201,7 +316,7 @@
 
             if (candidates.Count < length)
             {
-                throw new ArgumentException();
+                throw new ArgumentException("Недостаточно взаимно простых чисел.");
             }
 
             for (var i = 0; i < length; i++)
@@ -209,6 +324,7 @@
                 var index = random.Next(0, candidates.Count);
 
                 result[i] = candidates[index];
+                candidates.RemoveAt(index);
             }
 
             return result.OrderBy(x => x).ToArray();
@@ -220,7 +336,7 @@
         /// <param name="mu">The mu.</param>
         /// <param name="beta">The beta.</param>
         /// <returns></returns>
-        private int GetHashFunction(String mu, int beta)
+        private long GetHashFunction(String mu, long beta)
         {
             var coder = new Coder();
             var formattedMsg = coder.FormatMessage(mu);
@@ -241,7 +357,7 @@
         /// </summary>
         /// <param name="mu">The mu.</param>
         /// <returns></returns>
-        private int GetHash(String mu)
+        private long GetHash(String mu)
         {
             var hashResult = mu.Count(character => character == '1');
 
@@ -254,7 +370,7 @@
         /// <param name="a">a.</param>
         /// <param name="b">The b.</param>
         /// <returns>GCD</returns>
-        private int GetGreatestCommonDivisor(int a, int b)
+        private long GetGreatestCommonDivisor(long a, long b)
         {
             return b == 0 ? a : GetGreatestCommonDivisor(b, a % b) ;
         }
