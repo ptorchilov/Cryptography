@@ -109,6 +109,11 @@
             sb.Append(fiatShamir.W);
             sb.Append(@"\b0\line ");
 
+            sb.Append("W В двоичном виде: ");
+            sb.Append(@"\b ");
+            sb.Append(fiatShamir.WBinary);
+            sb.Append(@"\b0\line ");
+
             sb.Append("2. Вычисляем хэш функцию для Mu: ");
             sb.Append(@"\b ");
             sb.Append(fiatShamir.Hash);
@@ -128,6 +133,16 @@
 
             sb.Append(fiatShamir.S).Append(@"\b0\line ");
 
+            sb.Append("Принятое сообщение: ");
+            sb.Append(@"\b ");
+            sb.Append(message);
+            sb.Append(@"\b0\line ");
+
+            sb.Append("Принятое сообщение в двоичном виде: ");
+            sb.Append(@"\b ");
+            sb.Append(fiatShamir.CodedMsg);
+            sb.Append(@"\b0\line ");
+
             sb.Append("}");
 
             textBox4.Rtf = sb.ToString();
@@ -142,6 +157,12 @@
 
             sb.Append(@"{\rtf1\fcharset204 ");
             sb.Append(@"---------- Формирование подписи ---------\line ");
+
+            sb.Append("Передаваемое сообщение в двоичном виде: ");
+            sb.Append(@"\b ");
+            sb.Append(fiatShamir.CodedMsg);
+            sb.Append(@"\b0\line ");
+
             sb.Append("1. Определяем модуль сравнения на основе Кси1 и Кси2: ");
             sb.Append(@"\b ");
             sb.Append(fiatShamir.M);
@@ -155,6 +176,11 @@
             sb.Append("3. Вычисляем Beta = Alpha ^ 2 (mod M): ");
             sb.Append(@"\b ");
             sb.Append(fiatShamir.Beta);
+            sb.Append(@"\b0\line ");
+
+            sb.Append("Beta в двоичном виде: ");
+            sb.Append(@"\b ");
+            sb.Append(fiatShamir.BetaBinary);
             sb.Append(@"\b0\line ");
 
             sb.Append("4. Вычисляем хэш функцию для сообщения Mu (секретный ключ S): ");

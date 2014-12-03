@@ -42,7 +42,6 @@
             // 
             // textBoxKsi1
             // 
-            this.textBoxKsi1.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.textBoxKsi1.Location = new System.Drawing.Point(12, 31);
             this.textBoxKsi1.Name = "textBoxKsi1";
             this.textBoxKsi1.Size = new System.Drawing.Size(100, 20);
@@ -116,22 +115,20 @@
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(486, 182);
             this.textBox3.TabIndex = 9;
-            this.textBox3.Text = "";
             // 
             // textBox4
             // 
             this.textBox4.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBox4.Location = new System.Drawing.Point(12, 246);
             this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(486, 95);
+            this.textBox4.Size = new System.Drawing.Size(486, 117);
             this.textBox4.TabIndex = 10;
-            this.textBox4.Text = "";
             // 
             // ApplicationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(610, 366);
+            this.ClientSize = new System.Drawing.Size(610, 375);
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.buttonVerify);

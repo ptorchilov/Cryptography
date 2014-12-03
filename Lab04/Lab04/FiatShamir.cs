@@ -102,6 +102,34 @@
 
         #endregion
 
+        #region Binary Represents
+
+        /// <summary>
+        /// Gets or sets the coded message.
+        /// </summary>
+        /// <value>
+        /// The coded message.
+        /// </value>
+        public String CodedMsg { get; set; }
+
+        /// <summary>
+        /// Gets or sets the beta binary.
+        /// </summary>
+        /// <value>
+        /// The beta binary.
+        /// </value>
+        public String BetaBinary { get; set; }
+
+        /// <summary>
+        /// Gets or sets the forward binary.
+        /// </summary>
+        /// <value>
+        /// The forward binary.
+        /// </value>
+        public String WBinary { get; set; } 
+
+        #endregion
+
         #region Fields
 
         /// <summary>
@@ -174,6 +202,8 @@
             //1. Определяем параметр w
             W = GetWParam(keys[0], keys[1], B);
 
+            WBinary = Convert.ToString(W, 2);
+
             //2. Вычисляем хэш функцию для Mu
             Hash = GetHashFunction(mu, W);
 
@@ -195,6 +225,7 @@
         private long GetWParam(long s, long t, long[] b)
         {
             var sBinary = Convert.ToString(s, 2);
+
             BigInteger w = t * t;
 
             for (var i = 0; i < sBinary.Length; i++)
@@ -343,12 +374,16 @@
             var formattedMsg = coder.FormatMessage(mu);
             var codedMsg = coder.CodeMessage(formattedMsg);
 
+            CodedMsg = codedMsg;
+
             var betaBinary = Convert.ToString(beta, 2);
 
             while (betaBinary.Length < Coder.CodeLength)
             {
                 betaBinary = "0" + betaBinary;
             }
+
+            BetaBinary = betaBinary;
 
             return GetHash(codedMsg + betaBinary);
         }
